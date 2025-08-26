@@ -1,14 +1,14 @@
-🚀 TalentScout – Intelligent Recruitment Assistant
+## 🚀 TalentScout – Intelligent Recruitment Assistant
 
 TalentScout is an AI-powered recruitment assistant designed to streamline the initial candidate screening process for technology-focused recruitment agencies. The platform collects candidate information, evaluates technical skills, and prepares the candidate for a mini-interview automatically.
 
 This project demonstrates the integration of Streamlit for UI, dynamic forms, and advanced LLM features for intelligent question generation.
 
-**Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
-- "llama3-8b-8192"  
-- "llama-3.1-8b-instant"
+# **Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
+# - "llama3-8b-8192"  
+# - "llama-3.1-8b-instant"
 
-🌟 Features
+# 🌟 Features
 
 📝 Dynamic Candidate Form
 - Collects personal information: name, email, phone, and location.
@@ -18,27 +18,27 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 - Desired position selection (single-select).
 - Add / Remove skill slots dynamically.
 
-💻 Dynamic Technical Skills Section
+# 💻 Dynamic Technical Skills Section
 - Add multiple technical skills using dropdown or custom text input.
 - Mutually exclusive: selecting from dropdown hides the custom input, typing custom skill hides the dropdown.
 - Pressing Enter immediately adds the custom skill to the list.
 - Prevents duplicate skill selection in dropdowns.
 - Add / Remove skill slots dynamically.
 
-📎 Additional Information
+# 📎 Additional Information
 - LinkedIn profile, GitHub/portfolio link.
 - Preferred job location.
 
-🔒 Data Storage & Anonymization
+# 🔒 Data Storage & Anonymization
 - Candidate details are anonymized before saving.
 - Supports session management to retain form state during submission.
 
-🎯 Mini-Interview Ready
+# 🎯 Mini-Interview Ready
 - Saves candidate data and initializes a mini-interview process.
 
-===================================================================
-Technical Details
-===================================================================
+
+# Technical Details
+
 Technologies & Libraries Used:
 - Python 3.x
 - Streamlit – for interactive UI and forms
@@ -55,9 +55,9 @@ Architectural Decisions:
 - Dropdown + custom input combination for flexibility.
 - Mini-interview flow initialized automatically after candidate submission.
 
-===================================================================
-Prompt Design
-===================================================================
+
+# Prompt Design
+
 - Prompts are crafted to first collect candidate basic info.
 - Technical questions are generated based on the skills listed by the candidate.
 - Prompts are designed to be context-aware:
@@ -65,9 +65,9 @@ Prompt Design
   - Adaptive questions based on previous answers in the mini-interview flow.
 - LLM chain handles question ranking and relevance.
 
-===================================================================
-Challenges & Solutions
-===================================================================
+
+# Challenges & Solutions
+
 - **Dynamic skill input handling**: Ensured dropdown and custom skill inputs are mutually exclusive and prevent duplicates.
   - Solution: Track selected skills and update session state accordingly.
 - **Immediate addition of custom skills**: Prevent double pressing enter.
@@ -77,9 +77,9 @@ Challenges & Solutions
 - **Dropdown latency for repeated selections**: Avoid showing already selected skills.
   - Solution: Filter options based on session state and previous selections.
 
-===================================================================
-Usage Guide
-===================================================================
+
+# Usage Guide
+
 1. Open the app in your browser via the Streamlit URL.
 -app api key  if  you  have  also use modal **"llama3-8b-8192", "llama-3.1-8b-instant"** also use  **"Groq"** provider
 - bot  introduce  him and  ask  you to  further  procide  click  yes  if  you want
@@ -91,7 +91,7 @@ Usage Guide
 3. Click "Save & Start Mini Interview" to save candidate data and start the automated interview process.
 
 
-⚙️ Installation
+# ⚙️ Installation
 
 1. Clone the repository:
    git clone <repository-url>
@@ -109,7 +109,7 @@ Usage Guide
    streamlit run app/main.py
 
 
-🖥️ Usage
+# 🖥️ Usage
 
 1. Open the app in your browser via the Streamlit URL.
 2. Fill in the Candidate Information form:
@@ -118,7 +118,7 @@ Usage Guide
    - For experienced candidates, fill last company, years, and position.
 3. Click Save & Start Mini Interview to save candidate data and start the automated interview process.
 
-📁 Project Structure
+# 📁 Project Structure
 
 ```
 TalentScout/
@@ -150,13 +150,13 @@ TalentScout/
 
 
 
-🔮 Future Improvements
+# 🔮 Future Improvements
 - Integrate AI-powered interview question generation per candidate’s tech stack.
 - Support multiple positions per candidate.
 
 
-🤝 Contributing
+# 🤝 Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for improvements or bug fixes.
 
-📜 License
+# 📜 License
 This project is licensed under the MIT License.
