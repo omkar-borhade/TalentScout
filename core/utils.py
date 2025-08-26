@@ -6,8 +6,12 @@ def _hash(value: str) -> str:
     return hashlib.sha256((SALT + str(value)).encode("utf-8")).hexdigest()[:16]
 
 def anonymize_candidate(candidate: dict) -> dict:
-    return {
-        "id": _hash(candidate.get("email","")+candidate.get("phone","")),
+    # Start with core hashed info
+    record = {
+        "id": _hash(candidate.get("email","") + candidate.get("phone","")),
+        "name": candidate.get("name",""),
+        "email": candidate.get("email",""),
+        "phone": candidate.get("phone",""),
         "name_hash": _hash(candidate.get("name","")),
         "email_hash": _hash(candidate.get("email","")),
         "phone_hash": _hash(candidate.get("phone","")),
@@ -15,8 +19,23 @@ def anonymize_candidate(candidate: dict) -> dict:
         "desired_positions": candidate.get("desired_positions"),
         "location": candidate.get("location"),
         "tech_stack": candidate.get("tech_stack", []),
-        "created_at": datetime.utcnow().isoformat()+"Z"
+        "created_at": datetime.utcnow().isoformat() + "Z"
     }
+
+    # Include fresher info if present
+    fresher_fields = ["degree", "domain", "cgpa", "marks_12th", "marks_10th"]
+    for field in fresher_fields:
+        if field in candidate:
+            record[field] = candidate[field]
+
+    # Include experience info if present
+    exp_fields = ["last_company", "years_in_company", "position_in_company"]
+    for field in exp_fields:
+        if field in candidate:
+            record[field] = candidate[field]
+
+    return record
+
 
 def save_candidate(candidate: dict):
     records = []

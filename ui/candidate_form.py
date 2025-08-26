@@ -156,7 +156,7 @@ def candidate_form():
                 st.error(err)
             return False
 
-        # If valid, save candidate
+       # Build main candidate dict
         candidate = {
             "name": name.strip(),
             "email": email.strip(),
@@ -169,6 +169,12 @@ def candidate_form():
             "preferred_location": preferred_location.strip(),
             "tech_stack": final_skills,
         }
+
+        # Merge conditional fields
+        if years_exp == 0:
+            candidate.update(fresher_info)  # include fresher details
+        else:
+            candidate.update(exp_info)      # include experience details
 
         st.session_state.candidate = candidate
         save_candidate(anonymize_candidate(candidate))
