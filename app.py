@@ -15,15 +15,23 @@ for key in ["chain", "provider", "api_key", "model_name"]:
 with st.sidebar:
     st.header("Settings")
     provider = st.selectbox("LLM Provider", ["Groq"], index=0).lower()
+
+    # Save API key in session_state
+    if "api_key" not in st.session_state:
+        st.session_state.api_key = GROQ_API_KEY if GROQ_API_KEY else ""
+
     api_key = st.text_input(
         f"{provider.upper()} API Key",
-        value=GROQ_API_KEY if GROQ_API_KEY else "",
+        value=st.session_state.api_key,
         type="password"
     )
+    st.session_state.api_key = api_key  # keep it synced
+
     model_name = st.selectbox("Model", ["llama3-8b-8192", "llama-3.1-8b-instant"], index=0)
+    st.session_state.model_name = model_name
+    st.session_state.provider = provider
 
     if st.button("Clear Chat"):
-        # Delete all session keys
         for key in ["messages","candidate","questions","current_q","answers","chain","consent","bot_intro"]:
             if key in st.session_state:
                 del st.session_state[key]
@@ -45,16 +53,22 @@ if "bot_intro" not in st.session_state:
     st.session_state.bot_intro = False
 
 # ---------------- Bot Introduction ----------------
+
 if not st.session_state.bot_intro:
     # Load chain if not already loaded
-    if "chain" not in st.session_state and api_key:
+    if st.session_state.api_key and st.session_state.chain is None:
         @st.cache_resource
         def load_chain(provider, api_key, model_name):
             return LLMWrapper(provider=provider, api_key=api_key, model_name=model_name)
-        st.session_state.chain = load_chain(provider, api_key, model_name)
-    else:
+        st.session_state.chain = load_chain(
+            st.session_state.provider,
+            st.session_state.api_key,
+            st.session_state.model_name
+        )
+    elif not st.session_state.api_key:
         st.warning("⚠️ Please enter your API key in the sidebar to start.")
-        st.stop()    
+        st.stop()
+ 
 
     # Generate bot introduction dynamically
     bot_intro_text = ""
