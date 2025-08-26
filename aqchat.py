@@ -155,7 +155,7 @@ JSON Format:
 
             st.session_state.questions = q_json.get("questions", [])[:2]
             if st.session_state.questions:
-                st.success("✅ 2 Questions Generated. Let's start!")
+                st.success("✅ Analy user data. Let's start!")
             else:
                 st.error("⚠️ No questions found in response.")
 
