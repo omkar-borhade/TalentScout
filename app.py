@@ -13,16 +13,20 @@ st.title("🚀 TalentScout — Intelligent Hiring Assistant")
 with st.sidebar:
     st.header("Settings")
     provider = st.selectbox("LLM Provider", ["Groq"], index=0).lower()
-    api_key = st.text_input(f"{provider.upper()} API Key", value=GROQ_API_KEY if GROQ_API_KEY else "", type="password")
+    api_key = st.text_input(
+        f"{provider.upper()} API Key",
+        value=GROQ_API_KEY if GROQ_API_KEY else "",
+        type="password"
+    )
     model_name = st.selectbox("Model", ["llama3-8b-8192", "llama-3.1-8b-instant"], index=0)
-    
+
     if st.button("Clear Chat"):
-        for key in ["messages", "candidate", "questions", "current_q", "answers", "chain", 
-                    "consent", "bot_intro", "agree_yes", "agree_no"]:
+        # Delete all session keys
+        for key in ["messages","candidate","questions","current_q","answers","chain","consent","bot_intro"]:
             if key in st.session_state:
                 del st.session_state[key]
-        st.rerun()
-
+        st.session_state["proceed"] = None    
+        st.rerun() 
 
 # ---------------- Initialize session state ----------------
 for key in ["messages","candidate","questions","current_q","answers"]:
@@ -77,41 +81,17 @@ End with "Do you want to proceed?"
         )
 
     st.subheader("🤖 TalentScout says:")
-st.info(bot_intro_text)
+    st.info(bot_intro_text)
 
-# Initialize toggle state in session_state
-if "agree_yes" not in st.session_state:
-    st.session_state.agree_yes = False
-if "agree_no" not in st.session_state:
-    st.session_state.agree_no = False
-
-# Toggle checkboxes
-agree_yes = st.checkbox("✅ Yes, I want to proceed", value=st.session_state.agree_yes)
-agree_no = st.checkbox("❌ No, I do not want to proceed", value=st.session_state.agree_no)
-
-# Enforce toggle behavior
-if agree_yes:
-    st.session_state.agree_yes = True
-    st.session_state.agree_no = False
-elif agree_no:
-    st.session_state.agree_yes = False
-    st.session_state.agree_no = True
-else:
-    st.session_state.agree_yes = False
-    st.session_state.agree_no = False
-
-# Handle consent
-if st.session_state.agree_yes:
-    st.session_state.consent = True
-    st.session_state.bot_intro = True
-    st.success("Great! Let's start the process.")
-elif st.session_state.agree_no:
-    st.session_state.consent = False
-    st.session_state.bot_intro = True
-    st.warning("Thank you for your time. You can restart anytime.")
-    st.stop()
-# else -> both unchecked, wait for user input
-
+    proceed = st.radio("", ["No", "Yes"], index=None, key="proceed")
+    if proceed == "Yes":
+        st.session_state.consent = True
+        st.session_state.bot_intro = True
+        st.success("Great! Let's start the process.")
+    elif proceed == "No":
+        st.session_state.consent = False
+        st.warning("You chose not to proceed. You can restart anytime.")
+        st.stop()
 
 # ---------------- Candidate Form ----------------
 if st.session_state.consent:
