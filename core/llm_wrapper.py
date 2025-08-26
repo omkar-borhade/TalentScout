@@ -62,3 +62,16 @@ class LLMWrapper:
         if not self.chain:
             raise RuntimeError("⚠️ Chain not initialized. Please provide API key and model.")
         return self.chain.stream({"question": question})
+
+    def validate(self) -> bool:
+        """
+        Quick test to check if the API key & model work.
+        Returns True if usable, False if invalid/expired.
+        """
+        if not self.chain:
+            return False
+        try:
+            resp = "".join([c for c in self.chain.stream({"question": "Say OK"})])
+            return "OK" in resp.upper()
+        except Exception:
+            return False

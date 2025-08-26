@@ -53,22 +53,30 @@ if "bot_intro" not in st.session_state:
     st.session_state.bot_intro = False
 
 # ---------------- Bot Introduction ----------------
-
 if not st.session_state.bot_intro:
+    # Stop early if no key provided
+    if not st.session_state.api_key:
+        st.warning("⚠️ Please enter your API key in the sidebar to start.")
+        st.stop()
+
     # Load chain if not already loaded
-    if st.session_state.api_key and st.session_state.chain is None:
+    if st.session_state.chain is None:
         @st.cache_resource
         def load_chain(provider, api_key, model_name):
             return LLMWrapper(provider=provider, api_key=api_key, model_name=model_name)
-        st.session_state.chain = load_chain(
+        
+        chain = load_chain(
             st.session_state.provider,
             st.session_state.api_key,
             st.session_state.model_name
         )
-    elif not st.session_state.api_key:
-        st.warning("⚠️ Please enter your API key in the sidebar to start.")
-        st.stop()
- 
+
+        # ✅ Validate API key before proceeding
+        if not chain.validate():
+            st.error("❌ Invalid API key or model. Please check and re-enter.")
+            st.stop()
+
+        st.session_state.chain = chain
 
     # Generate bot introduction dynamically
     bot_intro_text = ""
