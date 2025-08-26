@@ -133,6 +133,7 @@
 #         return True
 
 #     return False
+
 import streamlit as st
 from core.utils import save_candidate, anonymize_candidate
 
@@ -270,8 +271,27 @@ def candidate_form():
     github = st.text_input("GitHub/Portfolio Link", st.session_state.candidate.get("github", ""))
     preferred_location = st.text_input("Preferred Job Location", st.session_state.candidate.get("preferred_location", ""))
 
-    # --- Submit ---
+     # --- Submit & Validation ---
     if st.button("Save & Start Mini Interview"):
+        errors = []
+
+        # Required fields check
+        if not name.strip(): errors.append("Name is required.")
+        if not email.strip(): errors.append("Email is required.")
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email.strip()):
+            errors.append("Email format is invalid.")
+        if not phone.strip(): errors.append("Phone number is required.")
+        elif not phone.strip().isdigit(): errors.append("Phone number must be numeric.")
+        if not desired_position.strip(): errors.append("Please select a desired position.")
+        if not location.strip(): errors.append("Location is required.")
+        if not final_skills: errors.append("At least one skill must be added.")
+
+        if errors:
+            for err in errors:
+                st.error(err)
+            return False
+
+        # If valid, save candidate
         candidate = {
             "name": name.strip(),
             "email": email.strip(),
@@ -285,15 +305,10 @@ def candidate_form():
             "tech_stack": final_skills,
         }
 
-        if years_exp == 0:
-            candidate.update(fresher_info)
-        else:
-            candidate.update(exp_info)
-
         st.session_state.candidate = candidate
         save_candidate(anonymize_candidate(candidate))
         st.session_state.questions, st.session_state.answers, st.session_state.current_q = [], [], 0
-        st.success("✅ Candidate saved & interview started!")
+        st.success("✅ Candidate saved!")
         return True
 
     return False
