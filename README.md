@@ -4,6 +4,7 @@ TalentScout is an AI-powered recruitment assistant designed to streamline the in
 
 This project demonstrates the integration of Streamlit for UI, dynamic forms, and advanced LLM features for intelligent question generation.
 
+Note:to run you require Groq provider  its api key and "llama3-8b-8192", "llama-3.1-8b-instant"
 🌟 Features
 
 📝 Dynamic Candidate Form
@@ -12,6 +13,7 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
   - Freshers: Degree, domain, CGPA, 10th & 12th marks.
   - Experienced: Last company, years worked, and position.
 - Desired position selection (single-select).
+- Add / Remove skill slots dynamically.
 
 💻 Dynamic Technical Skills Section
 - Add multiple technical skills using dropdown or custom text input.
@@ -31,6 +33,61 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 🎯 Mini-Interview Ready
 - Saves candidate data and initializes a mini-interview process.
 
+===================================================================
+Technical Details
+===================================================================
+Technologies & Libraries Used:
+- Python 3.x
+- Streamlit – for interactive UI and forms
+- JSON – for data storage
+- OpenAI / LLM wrapper – for AI-powered question generation
+- Custom utility functions in `core/utils.py`
+- Modular LLM chains (`chains/eval_chain.py`, `chains/question_chain.py`) for interview workflow
+- Session state handling in Streamlit for dynamic forms
+- Optional: vector DB integration for future candidate skill similarity search
+
+Architectural Decisions:
+- Modular design separating UI (`ui/`), core logic (`core/`), and LLM question generation (`chains/`).
+- Dynamic technical skill management to prevent duplicate entries.
+- Dropdown + custom input combination for flexibility.
+- Mini-interview flow initialized automatically after candidate submission.
+
+===================================================================
+Prompt Design
+===================================================================
+- Prompts are crafted to first collect candidate basic info.
+- Technical questions are generated based on the skills listed by the candidate.
+- Prompts are designed to be context-aware:
+  - Different prompts for freshers vs experienced candidates.
+  - Adaptive questions based on previous answers in the mini-interview flow.
+- LLM chain handles question ranking and relevance.
+
+===================================================================
+Challenges & Solutions
+===================================================================
+- **Dynamic skill input handling**: Ensured dropdown and custom skill inputs are mutually exclusive and prevent duplicates.
+  - Solution: Track selected skills and update session state accordingly.
+- **Immediate addition of custom skills**: Prevent double pressing enter.
+  - Solution: Added `on_change` callback to update skill state instantly.
+- **Form state persistence**: Maintain previously entered data when adding/removing skill slots.
+  - Solution: Used `st.session_state` for all dynamic inputs.
+- **Dropdown latency for repeated selections**: Avoid showing already selected skills.
+  - Solution: Filter options based on session state and previous selections.
+
+===================================================================
+Usage Guide
+===================================================================
+1. Open the app in your browser via the Streamlit URL.
+-app api key  if  you  have  also use modal "llama3-8b-8192", "llama-3.1-8b-instant" also use  "Groq" provider
+- bot  introduce  him and  ask  you to  further  procide  click  yes  if  you want
+
+2. Fill in the Candidate Information form:
+- Select or type technical skills using the dynamic skill fields.
+- For freshers, fill degree, domain, CGPA, and academic marks.
+- For experienced candidates, fill last company, years, and position.
+3. Click "Save & Start Mini Interview" to save candidate data and start the automated interview process.
+
+
 ⚙️ Installation
 
 1. Clone the repository:
@@ -39,8 +96,6 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 
 2. Create and activate a virtual environment:
    python -m venv venv
-   # Linux / Mac
-   source venv/bin/activate
    # Windows
    venv\Scripts\activate
 
@@ -49,6 +104,7 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 
 4. Run the Streamlit app:
    streamlit run app/main.py
+
 
 🖥️ Usage
 
@@ -88,6 +144,8 @@ TalentScout/
 ├── requirements.txt
 └── uv.lock
 ```
+
+
 
 🔮 Future Improvements
 - Integrate AI-powered interview question generation per candidate’s tech stack.
