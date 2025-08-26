@@ -5,6 +5,11 @@ from ui.interview_flow import ask_questions, evaluate_answers
 from core.llm_wrapper import LLMWrapper
 import json, re
 
+# Ensure required session_state keys exist
+for key in ["chain", "provider", "api_key", "model_name"]:
+    if key not in st.session_state:
+        st.session_state[key] = None
+
 # -----------------------
 st.set_page_config(page_title="TalentScout Chatbot", layout="wide")
 st.title("🚀 TalentScout — Intelligent Hiring Assistant")
