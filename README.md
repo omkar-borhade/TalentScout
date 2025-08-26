@@ -4,7 +4,10 @@ TalentScout is an AI-powered recruitment assistant designed to streamline the in
 
 This project demonstrates the integration of Streamlit for UI, dynamic forms, and advanced LLM features for intelligent question generation.
 
-Note:to run you require Groq provider  its api key and "llama3-8b-8192", "llama-3.1-8b-instant"
+**Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
+- "llama3-8b-8192"  
+- "llama-3.1-8b-instant"
+
 🌟 Features
 
 📝 Dynamic Candidate Form
@@ -78,7 +81,7 @@ Challenges & Solutions
 Usage Guide
 ===================================================================
 1. Open the app in your browser via the Streamlit URL.
--app api key  if  you  have  also use modal "llama3-8b-8192", "llama-3.1-8b-instant" also use  "Groq" provider
+-app api key  if  you  have  also use modal **"llama3-8b-8192", "llama-3.1-8b-instant"** also use  **"Groq"** provider
 - bot  introduce  him and  ask  you to  further  procide  click  yes  if  you want
 
 2. Fill in the Candidate Information form:
