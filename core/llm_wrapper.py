@@ -9,9 +9,7 @@ class LLMWrapper:
     SUPPORTED_PROVIDERS = {
         "groq": "langchain_groq.ChatGroq",
         "openai": "langchain_openai.ChatOpenAI",
-        # Future providers can be added here
-        # "anthropic": "langchain_anthropic.Anthropic",
-        # "cohere": "langchain_cohere.Cohere",
+        # Add future providers here
     }
 
     def __init__(self, provider="groq", api_key=None, model_name=None, temperature=0.2):
@@ -19,22 +17,18 @@ class LLMWrapper:
         self.api_key = api_key
         self.model_name = model_name
         self.temperature = temperature
+        self.chain = None  # delay init until credentials are valid
 
-        if not self.api_key:
-            raise ValueError(f"❌ API key required for provider '{self.provider}'")
-
-        self.chain = self._init_chain()
+        if self.api_key and self.model_name:
+            self.chain = self._init_chain()   # build chain only if ready
 
     def _import_class(self, path: str):
-        """
-        Dynamically import class from a string path
-        """
+        """Dynamically import class from a string path"""
         module_name, class_name = path.rsplit(".", 1)
         mod = __import__(module_name, fromlist=[class_name])
         return getattr(mod, class_name)
 
     def _init_chain(self):
-        # Shared prompt template
         prompt = ChatPromptTemplate.from_messages([
             ("system", "You are TalentScout Assistant. ONLY return valid JSON, no explanations."),
             ("user", "{question}")
@@ -64,9 +58,7 @@ class LLMWrapper:
         return prompt | llm | StrOutputParser()
 
     def stream(self, question: str):
-        """
-        Stream model output for a given question
-        """
+        """Stream model output for a given question"""
         if not self.chain:
             raise RuntimeError("⚠️ Chain not initialized. Please provide API key and model.")
         return self.chain.stream({"question": question})

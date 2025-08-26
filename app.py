@@ -10,9 +10,6 @@ for key in ["chain", "provider", "api_key", "model_name"]:
     if key not in st.session_state:
         st.session_state[key] = None
 
-# -----------------------
-st.set_page_config(page_title="TalentScout Chatbot", layout="wide")
-st.title("🚀 TalentScout — Intelligent Hiring Assistant")
 
 # ---------------- Sidebar Settings ----------------
 with st.sidebar:
@@ -32,6 +29,11 @@ with st.sidebar:
                 del st.session_state[key]
         st.session_state["proceed"] = None    
         st.rerun() 
+
+# -----------------------
+st.set_page_config(page_title="TalentScout Chatbot", layout="wide")
+st.title("🚀 TalentScout — Intelligent Hiring Assistant")
+
 
 # ---------------- Initialize session state ----------------
 for key in ["messages","candidate","questions","current_q","answers"]:

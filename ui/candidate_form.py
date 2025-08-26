@@ -1,7 +1,7 @@
 
 import streamlit as st
 from core.utils import save_candidate, anonymize_candidate
-
+import re
 def candidate_form():
     st.subheader("Candidate Information")
 
