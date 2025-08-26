@@ -52,6 +52,9 @@ if not st.session_state.bot_intro:
         def load_chain(provider, api_key, model_name):
             return LLMWrapper(provider=provider, api_key=api_key, model_name=model_name)
         st.session_state.chain = load_chain(provider, api_key, model_name)
+    else:
+        st.warning("⚠️ Please enter your API key in the sidebar to start.")
+        st.stop()    
 
     # Generate bot introduction dynamically
     bot_intro_text = ""
