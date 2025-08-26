@@ -38,7 +38,7 @@ if candidate_form():
         prompt_text = f"""
 Candidate: {candidate}
 
-Generate ONLY 2 technical interview questions TOTAL.
+Generate ONLY 3 to 5  not  more than 5  technical interview questions TOTAL.
 Return STRICT JSON ONLY, nothing else.
 JSON Format:
 {{
@@ -56,9 +56,9 @@ JSON Format:
             except json.JSONDecodeError:
                 match = re.search(r"\{.*\}", full_response, re.DOTALL)
                 q_json = json.loads(match.group()) if match else {}
-            st.session_state.questions = q_json.get("questions", [])[:2]
+            st.session_state.questions = q_json.get("questions", [])[:5]
             if st.session_state.questions:
-                st.success("✅ 2 Questions Generated. Let's start!")
+                st.success("✅ data Analysis completed. Let's start!")
         except Exception as e:
             st.error(f"Error generating questions: {e}")
 

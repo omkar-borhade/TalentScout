@@ -12,7 +12,9 @@ def ask_questions(chain):
             st.rerun()
 
 def evaluate_answers(chain):
-    if st.session_state.current_q >= 2 and st.session_state.answers:
+    # New check: only evaluate after all questions answered
+    if st.session_state.questions and st.session_state.current_q >= len(st.session_state.questions) and st.session_state.answers:
+
         st.subheader("📊 Final Evaluation")
         eval_prompt = f"""
 Evaluate the following answers. Score each (1–10) + give feedback.
