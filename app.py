@@ -22,25 +22,21 @@ with st.sidebar:
 
     if st.button("Clear Chat"):
         # Delete all session keys
-        for key in ["messages","candidate","questions","current_q","answers","chain","consent","bot_intro"]:
+        for key in ["messages","candidate","questions","current_q","answers","chain","consent","bot_intro","proceed"]:
             if key in st.session_state:
                 del st.session_state[key]
-        st.session_state["proceed"] = None    
-        st.rerun() 
+        st.rerun()
 
 # ---------------- Initialize session state ----------------
-for key in ["messages","candidate","questions","current_q","answers"]:
+keys = ["messages","candidate","questions","current_q","answers","chain","consent","bot_intro","proceed"]
+for key in keys:
     if key not in st.session_state:
-        st.session_state[key] = [] if key != "candidate" else {}
-if "consent" not in st.session_state:
-    st.session_state.consent = None
-if "bot_intro" not in st.session_state:
-    st.session_state.bot_intro = False
+        st.session_state[key] = None if key in ["consent","bot_intro","chain","proceed"] else [] if key != "candidate" else {}
 
 # ---------------- Bot Introduction ----------------
 if not st.session_state.bot_intro:
     # Load chain if not already loaded
-    if "chain" not in st.session_state and api_key:
+    if api_key and st.session_state.chain is None:
         @st.cache_resource
         def load_chain(provider, api_key, model_name):
             return LLMWrapper(provider=provider, api_key=api_key, model_name=model_name)
