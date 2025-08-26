@@ -62,29 +62,24 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 📁 Project Structure
 
 TalentScout/
-├── app.py                     # Streamlit main app
-├── aqchat.py                  # Chat interface logic (optional if splitting Streamlit UI)
-├── chains/                    # LLM chains
+│
+├── app.py                        # Streamlit main app
+├── aqchat.py                     # Chat interface or integration
+├── chains/                       # LLM chains
 │   ├── __init__.py
-│   ├── eval_chain.py          # Chains for evaluation / scoring / question generation
-│   └── question_chain.py      # Chains to generate technical questions
-├── core/                      # Core utilities and LLM wrappers
+│   ├── eval_chain.py
+│   └── question_chain.py
+├── core/                         # Core utilities and LLM wrappers
 │   ├── __init__.py
-│   ├── config.py              # Load .env, model configs
-│   ├── llm_wrapper.py         # Provides LLM instance (HF / TGI)
-│   └── utils.py               # Validators, masking, exit keywords, etc.
+│   ├── config.py
+│   ├── llm_wrapper.py
+│   └── utils.py
 ├── data/
-│   └── candidates.json         # Anonymized candidate storage
+│   └── candidates.json            # Candidate storage
 ├── ui/
 │   ├── __init__.py
-│   ├── candidate_form.py       # Form to collect candidate details
-│   └── interview_flow.py       # Q&A interactive flow
-├── prompts/                   # Prompt templates
-│   ├── __init__.py
-│   └── question_prompts.py
-├── rag/                       # RAG / vector DB related code
-│   ├── __init__.py
-│   └── chroma_store.py
+│   ├── candidate_form.py
+│   └── interview_flow.py
 ├── .gitignore
 ├── .python-version
 ├── README.md
