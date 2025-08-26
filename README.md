@@ -61,7 +61,7 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 
 📁 Project Structure
 
-TalentScout/
+```TalentScout/
 │
 ├── app.py                        # Streamlit main app
 ├── aqchat.py                     # Chat interface or integration
@@ -85,7 +85,7 @@ TalentScout/
 ├── README.md
 ├── pyproject.toml
 ├── requirements.txt
-└── uv.lock
+└── uv.lock```
 
 🔮 Future Improvements
 - Integrate AI-powered interview question generation per candidate’s tech stack.
