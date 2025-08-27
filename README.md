@@ -10,7 +10,7 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 
 ## 🎥 Demo Video
 
-https://github.com/omkar-borhade/TalentScout/demovideo/demo.mp4
+https://github.com/omkar-borhade/TalentScout/blob/main/demovideo/demo.mp4
 
  🌟 Features
 
