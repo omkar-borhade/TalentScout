@@ -54,66 +54,37 @@ if "bot_intro" not in st.session_state:
 
 # ---------------- Bot Introduction ----------------
 if not st.session_state.bot_intro:
-    # Stop early if no key provided
-    if not st.session_state.api_key:
-        st.warning("⚠️ Please enter your API key in the sidebar to start.")
-        st.stop()
-
-    # Load chain if not already loaded
-    if st.session_state.chain is None:
+    if st.session_state.api_key:
         @st.cache_resource
         def load_chain(provider, api_key, model_name):
+            # Cache per unique (provider, api_key, model_name)
             return LLMWrapper(provider=provider, api_key=api_key, model_name=model_name)
-        
-        chain = load_chain(
+
+        # Always rebuild when api_key/provider/model_name changes
+        st.session_state.chain = load_chain(
             st.session_state.provider,
             st.session_state.api_key,
             st.session_state.model_name
         )
 
-        # ✅ Validate API key before proceeding
-        if not chain.validate():
-            st.error("❌ Invalid API key or model. Please check and re-enter.")
+        # Validate before proceeding
+        if not st.session_state.chain.validate():
+            st.error("❌ Invalid API key or model. Please try again.")
             st.stop()
-
-        st.session_state.chain = chain
-
-    # Generate bot introduction dynamically
-    bot_intro_text = ""
-    if st.session_state.chain:
-        intro_prompt = """
-Introduce yourself as TalentScout in a friendly style.
-Explain you are an intelligent hiring assistant. Mention that you will guide
-the candidate through the form, collect education and work experience details,
-and generate tailored technical interview questions.
-Respond only with the introduction text, no JSON, no extra formatting.
-End with "Do you want to proceed?"
-"""
-        try:
-            full_response = "".join([c for c in st.session_state.chain.stream(intro_prompt)])
-            # Clean up response in case LLM outputs JSON accidentally
-            if full_response.strip().startswith("{") and "message" in full_response:
-                data = json.loads(full_response)
-                bot_intro_text = data.get("message", "")
-            else:
-                bot_intro_text = full_response.strip()
-        except Exception:
-            bot_intro_text = (
-                "Hi there! I'm TalentScout, your intelligent hiring assistant. "
-                "I'm here to help you navigate the hiring process with ease. "
-                "I can guide you through the candidate information form, collect your education and work experience, "
-                "and generate tailored technical interview questions. Do you want to proceed?"
-            )
     else:
-        bot_intro_text = (
-            "Hi there! I'm TalentScout, your intelligent hiring assistant. "
-            "I'm here to help you navigate the hiring process with ease. "
-            "I can guide you through the candidate information form, collect your education and work experience, "
-            "and generate tailored technical interview questions. Do you want to proceed?"
-        )
+        st.warning("⚠️ Please enter your API key in the sidebar to start.")
+        st.stop()
 
+
+
+    # ---- Intro text ----
     st.subheader("🤖 TalentScout says:")
-    st.info(bot_intro_text)
+    st.info(
+        "Hi there! I'm TalentScout, your intelligent hiring assistant. "
+        "I'm here to help you navigate the hiring process with ease. "
+        "I can guide you through the candidate information form, collect your education and work experience, "
+        "and generate tailored technical interview questions. Do you want to proceed?"
+    )
 
     proceed = st.radio("", ["No", "Yes"], index=None, key="proceed")
     if proceed == "Yes":
@@ -124,6 +95,19 @@ End with "Do you want to proceed?"
         st.session_state.consent = False
         st.warning("You chose not to proceed. You can restart anytime.")
         st.stop()
+
+else:
+    # 🚨 Check if user changed their mind to "No"
+    if st.session_state.get("proceed") == "No":
+        # Reset intro + clear candidate form/session state
+        for key in ["candidate", "questions", "current_q", "answers"]:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.session_state.bot_intro = False
+        st.session_state.consent = False
+        st.warning("You chose not to proceed. Restart anytime.")
+        st.stop()
+        
 
 # ---------------- Candidate Form ----------------
 if st.session_state.consent:

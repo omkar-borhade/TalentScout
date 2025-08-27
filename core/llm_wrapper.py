@@ -20,7 +20,7 @@ class LLMWrapper:
         self.chain = None  # delay init until credentials are valid
 
         if self.api_key and self.model_name:
-            self.chain = self._init_chain()   # build chain only if ready
+            self.chain = self._init_chain()
 
     def _import_class(self, path: str):
         """Dynamically import class from a string path"""
@@ -39,7 +39,6 @@ class LLMWrapper:
 
         LLMClass = self._import_class(self.SUPPORTED_PROVIDERS[self.provider])
 
-        # Provider-specific initialization
         if self.provider == "groq":
             llm = LLMClass(
                 groq_api_key=self.api_key,
@@ -58,20 +57,21 @@ class LLMWrapper:
         return prompt | llm | StrOutputParser()
 
     def stream(self, question: str):
-        """Stream model output for a given question"""
         if not self.chain:
             raise RuntimeError("⚠️ Chain not initialized. Please provide API key and model.")
         return self.chain.stream({"question": question})
 
     def validate(self) -> bool:
         """
-        Quick test to check if the API key & model work.
-        Returns True if usable, False if invalid/expired.
+        Check if the API key and model are valid by making a tiny test call.
+        Returns True if it works, False otherwise.
         """
         if not self.chain:
             return False
+
         try:
-            resp = "".join([c for c in self.chain.stream({"question": "Say OK"})])
-            return "OK" in resp.upper()
+            # Just send a simple ping
+            resp = "".join([c for c in self.chain.stream({"question": "ping"})])
+            return bool(resp.strip())
         except Exception:
             return False
