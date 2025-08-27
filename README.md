@@ -4,15 +4,17 @@ TalentScout is an AI-powered recruitment assistant designed to streamline the in
 
 This project demonstrates the integration of Streamlit for UI, dynamic forms, and advanced LLM features for intelligent question generation.
 
-# **Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
-# - "llama3-8b-8192"  
-# - "llama-3.1-8b-instant"
+ **Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
+ - "llama3-8b-8192"  
+ - "llama-3.1-8b-instant"
 
 ## 🎥 Demo Video
 
-<video src="demovideo/demo.mp4" width="600" autoplay loop muted controls></video>
+<video src="https://drive.google.com/file/d/1dZGlO_u4fWgkq-2-LaXFKp9xje6e-EQT/view?usp=sharing" 
+       width="600" autoplay loop muted controls></video>
 
-# 🌟 Features
+
+ 🌟 Features
 
 📝 Dynamic Candidate Form
 - Collects personal information: name, email, phone, and location.
@@ -22,26 +24,26 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 - Desired position selection (single-select).
 - Add / Remove skill slots dynamically.
 
-# 💻 Dynamic Technical Skills Section
+ 💻 Dynamic Technical Skills Section
 - Add multiple technical skills using dropdown or custom text input.
 - Mutually exclusive: selecting from dropdown hides the custom input, typing custom skill hides the dropdown.
 - Pressing Enter immediately adds the custom skill to the list.
 - Prevents duplicate skill selection in dropdowns.
 - Add / Remove skill slots dynamically.
 
-# 📎 Additional Information
+ 📎 Additional Information
 - LinkedIn profile, GitHub/portfolio link.
 - Preferred job location.
 
-# 🔒 Data Storage & Anonymization
+ 🔒 Data Storage & Anonymization
 - Candidate details are anonymized before saving.
 - Supports session management to retain form state during submission.
 
-# 🎯 Mini-Interview Ready
+ 🎯 Mini-Interview Ready
 - Saves candidate data and initializes a mini-interview process.
 
 
-# Technical Details
+ Technical Details
 
 Technologies & Libraries Used:
 - Python 3.x
@@ -60,7 +62,7 @@ Architectural Decisions:
 - Mini-interview flow initialized automatically after candidate submission.
 
 
-# Prompt Design
+ Prompt Design
 
 - Prompts are crafted to first collect candidate basic info.
 - Technical questions are generated based on the skills listed by the candidate.
@@ -70,7 +72,7 @@ Architectural Decisions:
 - LLM chain handles question ranking and relevance.
 
 
-# Challenges & Solutions
+ Challenges & Solutions
 
 - **Dynamic skill input handling**: Ensured dropdown and custom skill inputs are mutually exclusive and prevent duplicates.
   - Solution: Track selected skills and update session state accordingly.
@@ -82,7 +84,7 @@ Architectural Decisions:
   - Solution: Filter options based on session state and previous selections.
 
 
-# Usage Guide
+ Usage Guide
 
 1. Open the app in your browser via the Streamlit URL.
 -app api key  if  you  have  also use modal **"llama3-8b-8192", "llama-3.1-8b-instant"** also use  **"Groq"** provider
@@ -95,7 +97,7 @@ Architectural Decisions:
 3. Click "Save & Start Mini Interview" to save candidate data and start the automated interview process.
 
 
-# ⚙️ Installation
+ ⚙️ Installation
 
 1. Clone the repository:
    git clone <repository-url>
@@ -113,7 +115,7 @@ Architectural Decisions:
    streamlit run app/main.py
 
 
-# 🖥️ Usage
+ 🖥️ Usage
 
 1. Open the app in your browser via the Streamlit URL.
 2. Fill in the Candidate Information form:
@@ -122,7 +124,7 @@ Architectural Decisions:
    - For experienced candidates, fill last company, years, and position.
 3. Click Save & Start Mini Interview to save candidate data and start the automated interview process.
 
-# 📁 Project Structure
+📁 Project Structure
 
 ```
 TalentScout/
@@ -153,14 +155,13 @@ TalentScout/
 ```
 
 
-
-# 🔮 Future Improvements
+ 🔮 Future Improvements
 - Integrate AI-powered interview question generation per candidate’s tech stack.
 - Support multiple positions per candidate.
 
 
-# 🤝 Contributing
+🤝 Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for improvements or bug fixes.
 
-# 📜 License
+ 📜 License
 This project is licensed under the MIT License.
