@@ -8,6 +8,10 @@ This project demonstrates the integration of Streamlit for UI, dynamic forms, an
 # - "llama3-8b-8192"  
 # - "llama-3.1-8b-instant"
 
+## 🎥 Demo Video
+
+<video src="demovideo/demo.mp4" width="600" autoplay loop muted controls></video>
+
 # 🌟 Features
 
 📝 Dynamic Candidate Form
