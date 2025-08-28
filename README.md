@@ -4,6 +4,9 @@ TalentScout is an AI-powered recruitment assistant designed to streamline the in
 
 This project demonstrates the integration of Streamlit for UI, dynamic forms, and advanced LLM features for intelligent question generation.
 
+ 💻 project link:
+https://talentscout-9gk9edh4arxpsegbpvnckx.streamlit.app/
+
  **Note:** To run this project, you require a **Groq provider**, its **API key**, and one of the following models:  
  - "llama3-8b-8192"  
  - "llama-3.1-8b-instant"
